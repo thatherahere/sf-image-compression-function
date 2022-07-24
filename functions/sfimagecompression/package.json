@@ -1,0 +1,29 @@
+{
+  "name": "sfimagecompression-function",
+  "version": "0.0.1",
+  "type": "module",
+  "author": "Govind Thathera (thatherehere)",
+  "description": "A Salesforce Function that compress images",
+  "license": "CC0-1.0",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git"
+  },
+  "engines": {
+    "node": "^16.9"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .js --config .eslintrc",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "eslint": "^6.8.0",
+    "mocha": "^8.4.0",
+    "sinon": "^10.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "sharp": "^0.30.7"
+  }
+}
