@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "sf-image-compression-function",
+  "name": "sfimagecompressionfunction",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "55.0"
