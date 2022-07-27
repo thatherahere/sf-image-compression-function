@@ -50,7 +50,7 @@ export default async function (event, context, logger) {
                 failedCVIds.push( file.contentVersionId );
             }
         }
-        return { contentVersionIds };
+        return { "successCVIds" : successCVIds, "failedCVIds" : failedCVIds };
     } catch (err) {
         const newError = new Error(`Failed to process documents`, {
             cause: err
