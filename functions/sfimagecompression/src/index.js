@@ -11,6 +11,7 @@
  *                 to a given execution of a function.
  */
 
+import 'dotenv/config';
 import { HttpService } from './httpService.js';
 import sharp from "sharp"; 
 
@@ -101,7 +102,7 @@ async function updateDocumentWithCompressedContent(file, bufferData, context, lo
 
     const contentBody = {
         "Title": file.title,
-        "PathOnClient": file.title,
+        "PathOnClient": file.pathOnClient,
         "VersionData": bufferData.toString('base64'),
         "ContentDocumentId" : file.contentDocumentId,
         "IsMajorVersion" : true,
