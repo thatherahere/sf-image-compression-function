@@ -87,9 +87,9 @@ async function readContentVersionData( file, context, logger ){
 }  
 
 async function compressContentBody( file, contentBody, sharpOptions ){
-    if( file.FileExtension === "jpg" || file.FileExtension === "jpeg" ){
+    if( file.fileExtension === "jpg" || file.fileExtension === "jpeg" ){
         return await sharp(contentBody).jpeg(sharpOptions).toBuffer();
-    }else if( file.FileExtension === "png" ){
+    }else if( file.fileExtension === "png" ){
         return await sharp(contentBody).png(sharpOptions).toBuffer();
     }
 }
