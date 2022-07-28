@@ -4,6 +4,8 @@
 
 This Salesforce function convert large images in common formats to smaller, web-friendly JPEG, PNG, WebP, GIF and AVIF images of varying dimensions. It uses Sharp Node.js module to convert images of the most diverse formats and varied dimensions to a smaller size, without having to worry about the color space, channels and alpha transparency, because all of these are treated correctly.
 
+![Demo](/Images/Demo.gif)
+
 ## Installation
 
 ### Prerequisites
@@ -32,6 +34,21 @@ You execute the function by either [deploying to a compute environement](#deploy
 
 Follow these steps to deploy your function to a compute environment:
 
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/thatherahere/sf-image-compression-function.git
+   cd sf-image-compression-function
+   ```
+
+1. Login to your Salesforce Function trail Org.
+
+1. Deploy code to your trail org:
+
+   ```sh
+   sfdx force:source:deploy -x manifest/package.xml -l RunSpecifiedTests -r ContentDocumentLinkTriggerTest
+   ```
+
 1. Log in to Salesforce Functions (you may have to repeat this command later as this will eventually time out)
 
    ```sh
@@ -51,48 +68,11 @@ Follow these steps to deploy your function to a compute environment:
    sf deploy functions -o sf_img_prcess_org
    ```
 
-1.
-
-#### Run locally
-
-Follow these steps to test your function locally:
-
-1. Create a `.env` file in the `functions/sftwiliosms` directory. Use the following template and make sure to replace values accordingly:
-
-   ```properties
-   TWILIO_ACCOUNT_SID=XXXXXXXXXX
-   TWILIO_AUTH_TOKEN=XXXXXXXXXX
-   FROM_NUMBER=XXXXXXXXXX
-   ```
-
-1. Prepare the JSON payload. You can pass the payload inline or create a payload.json file in your function directory with a verified number and SMS body as:
-
-   ```json
-   {
-     "toNumber": "[VERIFIED_NUMBER]",
-     "smsBody": "This SMS was sent via Salesforce Function."
-   }
-   ```
-
-1. Run these commands to start the function locally:
-
+1. Open the org:
    ```sh
-   cd functions/sftwiliosms
-   sf run function start
+   sfdx force:org:open
    ```
-
-1. Navigate to your project root directory and invoke the function as:
-   ```sh
-   sf run function -l http://localhost:8080 -p '@functions/sftwiliosms/payload.json'
-   ```
-
-#### Environment variables reference
-
-| Variable Name        | Description                        |
-| -------------------- | ---------------------------------- |
-| `TWILIO_ACCOUNT_SID` | Your twilio account's Account SID. |
-| `TWILIO_AUTH_TOKEN`  | Your twilio account's Auth Token . |
-| `FROM_NUMBER`        | Your Twilio phone number           |
+1. Navigate to Contacts tab --> Open any Contact record --> Navigate to related list --> Files/Notes & Attachments related list --> Upload image using Upload Files button --> Compare the file size and quality after upload.
 
 ## Troubleshooting
 
