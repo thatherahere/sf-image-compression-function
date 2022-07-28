@@ -1,16 +1,11 @@
 /**
- * Describe Sfcompressfiles here.
- *
- * The exported method is the entry point for your code when the function is invoked. 
- *
- * Following parameters are pre-configured and provided to your function on execution: 
- * @param event: represents the data associated with the occurrence of an event, and  
- *                 supporting metadata about the source of that occurrence.
- * @param context: represents the connection to Functions and your Salesforce org.
- * @param logger: logging handler used to capture application logs and trace specifically
- *                 to a given execution of a function.
- */
-
+ * This Salesforce function convert large images in common formats to smaller, web-friendly 
+ * JPEG, PNG, WebP, GIF and AVIF images of varying dimensions. It uses Sharp Node.js module 
+ * to convert images of the most diverse formats and varied dimensions to a smaller size, 
+ * without having to worry about the color space, channels and alpha transparency, because 
+ * all of these are treated correctly.
+ */ 
+ 
 import 'dotenv/config';
 import { HttpService } from './httpService.js';
 import sharp from "sharp"; 
@@ -35,6 +30,14 @@ class Error extends OriginalError {
 
 const sharpConfiguration = { "quality": 50 };
 
+/*
+ * Following parameters are pre-configured and provided to your function on execution: 
+ * @param event: represents the data associated with the occurrence of an event, and  
+ *                 supporting metadata about the source of that occurrence.
+ * @param context: represents the connection to Functions and your Salesforce org.
+ * @param logger: logging handler used to capture application logs and trace specifically
+ *                 to a given execution of a function.
+ */
 export default async function (event, context, logger) {
     try {
         logger.info("Request body: "+JSON.stringify(event.data));
@@ -63,6 +66,13 @@ export default async function (event, context, logger) {
     }
 }
 
+/*
+ * Following parameters are pre-configured and provided to your function on execution: 
+ * @param file: Content Version wrapper from Salesforce contains file information.
+ * @param context: represents the connection to Functions and your Salesforce org.
+ * @param logger: logging handler used to capture application logs and trace specifically
+ *                 to a given execution of a function.
+ */
 async function readContentVersionData( file, context, logger ){
     const { apiVersion, domainUrl } = context.org;
     const { accessToken } = context.org.dataApi;
@@ -82,6 +92,12 @@ async function readContentVersionData( file, context, logger ){
     }
 }  
 
+/*
+ * Following parameters are pre-configured and provided to your function on execution: 
+ * @param file: Content Version wrapper from Salesforce contains file information.
+ * @param contentBody: content or body of the image.
+ * @param sharpOptions: object of Output options. Ex: https://sharp.pixelplumbing.com/api-output#jpeg
+ */
 async function compressContentBody( file, contentBody, sharpOptions ){
     if( file.fileExtension === "jpg" || file.fileExtension === "jpeg" ){
         return await sharp(contentBody).jpeg(sharpOptions).toBuffer();
@@ -90,6 +106,14 @@ async function compressContentBody( file, contentBody, sharpOptions ){
     }
 }
 
+/*
+ * Following parameters are pre-configured and provided to your function on execution: 
+ * @param file: Content Version wrapper from Salesforce contains file information.
+ * @param bufferData: compressed image buffer from sharp.
+ * @param context: represents the connection to Functions and your Salesforce org.
+ * @param logger: logging handler used to capture application logs and trace specifically
+ *                 to a given execution of a function.
+ */
 async function updateDocumentWithCompressedContent(file, bufferData, context, logger) {
     const { apiVersion, domainUrl } = context.org;
     const { accessToken } = context.org.dataApi;
