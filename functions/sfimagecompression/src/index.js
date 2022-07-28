@@ -52,7 +52,7 @@ export default async function (event, context, logger) {
                 logger.info("Uploaded the file.");
                 successCVIds.push( file.contentVersionId );
             }catch(err){
-                logger.error("Error: "+JSON.stringify(err));
+                logger.error("Error in main: "+JSON.stringify(err));
                 failedCVIds.push( file.contentVersionId );
             }
         }
@@ -117,11 +117,12 @@ async function updateDocumentWithCompressedContent(file, bufferData, context, lo
       };
 
     try {
+        logger.info( "Starting file Upload" );
         const response = await HttpService.uploadCompressedContent(options, JSON.stringify( contentBody ), logger);
         logger.info( "Upload Response: "+JSON.stringify( response ) );
         return response;
     } catch (err) {
-        logger.error("Error: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));
+        logger.error("Error in updateDocumentWithCompressedContent: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));
         throw new Error(`Failed to create new salesforce content version`, { cause: err });
     }
 }
