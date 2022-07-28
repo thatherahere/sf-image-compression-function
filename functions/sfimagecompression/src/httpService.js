@@ -63,9 +63,10 @@ export class HttpService {
             });
 
             req.on('error', (err) => {
+                logger.error("Error: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));        
                 reject(
                     new Error(
-                        `Error in GET request: HTTP ${res.statusCode} ${
+                        `Error in POST request: HTTP ${res.statusCode} ${
                             res.statusMessage
                         } - ${JSON.stringify(options)}`,
                         { cause: err }
