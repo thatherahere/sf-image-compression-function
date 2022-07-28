@@ -8,7 +8,7 @@ export class HttpService {
                     reject(
                         new Error(
                             `Error in GET request: HTTP ${res.statusCode} ${
-                                res.statusMessage
+                                res.errorCode +"-"+ res.message
                             } - ${JSON.stringify(options)}`
                         )
                     );
@@ -25,7 +25,7 @@ export class HttpService {
                 reject(
                     new Error(
                         `Error in GET request: HTTP ${res.statusCode} ${
-                            res.statusMessage
+                            res.errorCode +"-"+ res.message
                         } - ${JSON.stringify(options)}`,
                         { cause: err }
                     )
@@ -47,7 +47,7 @@ export class HttpService {
                     reject(
                         new Error(
                             `Error in POST request: HTTP ${res.statusCode} ${
-                                res.statusMessage
+                                res.errorCode +"-"+ res.message
                             } - ${JSON.stringify(options)}`
                         )
                     );
@@ -67,7 +67,7 @@ export class HttpService {
                 reject(
                     new Error(
                         `Error in POST request: HTTP ${res.statusCode} ${
-                            res.statusMessage
+                            res.errorCode +"-"+ res.message
                         } - ${JSON.stringify(options)}`,
                         { cause: err }
                     )

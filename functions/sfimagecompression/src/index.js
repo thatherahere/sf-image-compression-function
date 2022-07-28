@@ -45,11 +45,8 @@ export default async function (event, context, logger) {
         for (const file of files) {
             try{
                 const contentBody = await readContentVersionData( file, context, logger );
-                logger.info("Downloaded the file.");
                 const bufferResponse = await compressContentBody( file, contentBody, sharpOptions ); 
-                logger.info("Compressed the file.");
                 await updateDocumentWithCompressedContent( file, bufferResponse, context, logger );
-                logger.info("Uploaded the file.");
                 successCVIds.push( file.contentVersionId );
             }catch(err){
                 logger.error("Error in main: "+JSON.stringify(err));
@@ -78,7 +75,6 @@ async function readContentVersionData( file, context, logger ){
         }
     };
     try {
-        logger.info("calling download service.");
         return await HttpService.downloadContentVersion(options);
     } catch (err) {
         logger.error("Error in readContentVersionData: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));
@@ -117,7 +113,6 @@ async function updateDocumentWithCompressedContent(file, bufferData, context, lo
       };
 
     try {
-        logger.info( "Starting file Upload" );
         const response = await HttpService.uploadCompressedContent(options, JSON.stringify( contentBody ), logger);
         logger.info( "Upload Response: "+JSON.stringify( response ) );
         return response;
