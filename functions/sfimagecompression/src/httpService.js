@@ -63,7 +63,7 @@ export class HttpService {
             });
 
             req.on('error', (err) => {
-                logger.error("Error: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));        
+                logger.error("Error in uploadCompressedContent: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));        
                 reject(
                     new Error(
                         `Error in POST request: HTTP ${res.statusCode} ${
