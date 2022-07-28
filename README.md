@@ -4,7 +4,8 @@
 
 This Salesforce function convert large images in common formats to smaller, web-friendly JPEG, PNG, WebP, GIF and AVIF images of varying dimensions. It uses Sharp Node.js module to convert images of the most diverse formats and varied dimensions to a smaller size, without having to worry about the color space, channels and alpha transparency, because all of these are treated correctly.
 
-![Demo](/Images/Demo.gif)
+https://user-images.githubusercontent.com/2828039/181612839-2156feb4-d25d-427d-81ff-dda7f5e832af.mp4
+
 
 ## Installation
 
@@ -24,16 +25,11 @@ This Salesforce function convert large images in common formats to smaller, web-
 
 As well as image resizing, operations such as rotation, extraction, compositing and gamma correction are available.
 
+This sample function support jpg, jpeg and png compression. You can explore more options [here](https://sharp.pixelplumbing.com/api-output).
+
 ### Deploy and configure the Salesforce Function
 
-You execute the function by either [deploying to a compute environement](#deploy-to-compute-environment) or [run locally](#run-locally).
-
-<!--Make sure to refer to the relevant section and check the [environment variables reference](#environment-variables-reference) section for the appropriate configuration.-->
-
-#### Deploy to compute environment
-
-Follow these steps to deploy your function to a compute environment:
-
+#### Deploy source to org:
 1. Clone the repository:
 
    ```sh
@@ -48,6 +44,8 @@ Follow these steps to deploy your function to a compute environment:
    ```sh
    sfdx force:source:deploy -x manifest/package.xml -l RunSpecifiedTests -r ContentDocumentLinkTriggerTest
    ```
+#### Function Deployment to compute environment:
+Follow these steps to deploy your function to a compute environment:
 
 1. Log in to Salesforce Functions (you may have to repeat this command later as this will eventually time out)
 
@@ -86,7 +84,7 @@ Follow these steps to deploy your function to a compute environment:
 1. Monitor Salesforce Function's logs by running:
 
    ```sh
-   sf env log tail -e stenv
+   sf env log tail -e stimgenv
    ```
 
 1. Monitor Salesforce logs by running:
@@ -100,5 +98,5 @@ Follow these steps to deploy your function to a compute environment:
 Release the Compute Environments: If you no longer need a compute environment, or you wish to disconnect a connected org, use the sf env delete command with the compute environment alias to remove the compute environment and let someone else use these resources for practice :) :
 
 ```sh
-sf env delete -e stenv
+sf env delete -e stimgenv
 ```
