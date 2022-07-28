@@ -78,9 +78,10 @@ async function readContentVersionData( file, context, logger ){
         }
     };
     try {
+        logger.info("calling download service.");
         return await HttpService.downloadContentVersion(options);
     } catch (err) {
-        logger.error("Error: "+JSON.stringify(err));
+        logger.error("Error in readContentVersionData: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));
         throw new Error(`Failed to download Salesforce doc`, { cause: err });
     }
 }  
@@ -120,7 +121,7 @@ async function updateDocumentWithCompressedContent(file, bufferData, context, lo
         logger.info( "Upload Response: "+JSON.stringify( response ) );
         return response;
     } catch (err) {
-        logger.error("Error: "+JSON.stringify(err));
+        logger.error("Error: "+JSON.stringify(err, Object.getOwnPropertyNames(err)));
         throw new Error(`Failed to create new salesforce content version`, { cause: err });
     }
 }
