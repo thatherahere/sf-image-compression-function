@@ -37,6 +37,7 @@ const sharpConfiguration = { "quality": 50 };
 
 export default async function (event, context, logger) {
     try {
+        logger.info("Request body: "+JSON.stringify(event.data));
         const files = event.data.files || [];
         let sharpOptions = event.data.sharpConfiguration || sharpConfiguration;
         const successCVIds = [];
@@ -44,10 +45,14 @@ export default async function (event, context, logger) {
         for (const file of files) {
             try{
                 const contentBody = await readContentVersionData( file, context );
+                logger.info("Downloaded the file.");
                 const bufferResponse = await compressContentBody( file, contentBody, sharpOptions ); 
+                logger.info("Compressed the file.");
                 await updateDocumentWithCompressedContent( file, bufferResponse, context, logger );
+                logger.info("Uploaded the file.");
                 successCVIds.push( file.contentVersionId );
             }catch(err){
+                logger.error("Error: "+JSON.stringify(err));
                 failedCVIds.push( file.contentVersionId );
             }
         }
