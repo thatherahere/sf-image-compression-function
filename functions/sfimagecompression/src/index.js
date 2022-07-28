@@ -44,7 +44,7 @@ export default async function (event, context, logger) {
         const failedCVIds = [];
         for (const file of files) {
             try{
-                const contentBody = await readContentVersionData( file, context );
+                const contentBody = await readContentVersionData( file, context, logger );
                 logger.info("Downloaded the file.");
                 const bufferResponse = await compressContentBody( file, contentBody, sharpOptions ); 
                 logger.info("Compressed the file.");
@@ -66,7 +66,7 @@ export default async function (event, context, logger) {
     }
 }
 
-async function readContentVersionData( file, context ){
+async function readContentVersionData( file, context, logger ){
     const { apiVersion, domainUrl } = context.org;
     const { accessToken } = context.org.dataApi;
     const options = {
@@ -80,14 +80,15 @@ async function readContentVersionData( file, context ){
     try {
         return await HttpService.downloadContentVersion(options);
     } catch (err) {
+        logger.error("Error: "+JSON.stringify(err));
         throw new Error(`Failed to download Salesforce doc`, { cause: err });
     }
 }  
 
 async function compressContentBody( file, contentBody, sharpOptions ){
-    if( file.fileExtesion === "jpg" || file.fileExtesion === "jpeg" ){
+    if( file.FileExtension === "jpg" || file.FileExtension === "jpeg" ){
         return await sharp(contentBody).jpeg(sharpOptions).toBuffer();
-    }else if( file.fileExtesion === "png" ){
+    }else if( file.FileExtension === "png" ){
         return await sharp(contentBody).png(sharpOptions).toBuffer();
     }
 }
@@ -119,6 +120,7 @@ async function updateDocumentWithCompressedContent(file, bufferData, context, lo
         logger.info( "Upload Response: "+JSON.stringify( response ) );
         return response;
     } catch (err) {
+        logger.error("Error: "+JSON.stringify(err));
         throw new Error(`Failed to create new salesforce content version`, { cause: err });
     }
 }
