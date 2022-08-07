@@ -40,6 +40,8 @@ const sharpConfiguration = { "quality": 50 };
  */
 export default async function (event, context, logger) {
     try {
+        logger.info("UserId: "+context.org.user.id);
+        logger.info("Username: "+context.org.user.username);
         logger.info("Request body: "+JSON.stringify(event.data));
         const files = event.data.files || [];
         let sharpOptions = event.data.sharpConfiguration || sharpConfiguration;
